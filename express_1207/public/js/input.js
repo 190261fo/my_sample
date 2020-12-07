@@ -7,7 +7,7 @@ $(function () {
     });
 
     //フォームリクエスト
-    $('#form').on('submit', function () {
+    $('#form').on('submit', function (event) {
         //HTML フォームを止める
         event.preventDefault();
 
@@ -50,6 +50,32 @@ $(function () {
 
             li.append(btn_area);
             $('#history').append(li);
+        }).fail(function (xhr, status, error) {
+            //エラー
+            alert(status);
+        });
+    });
+
+    //フォームリクエスト2
+    //purchase
+    $('#form_purchase').on('submit', function (event) {
+        //HTML フォームを止める
+        event.preventDefault();
+
+        //Ajax データ送信
+        let data = $('#form_purchase').serialize();
+        const url = 'http://localhost:3000?/purchase';
+
+        console.log(data);
+        $.ajax({
+            url: url,
+            type: 'post',
+            data: data,
+            dataType: 'text'
+        }).done(function (res) {
+            //結果
+            console.debug(res);
+            $('#result').text(res);
         }).fail(function (xhr, status, error) {
             //エラー
             alert(status);
