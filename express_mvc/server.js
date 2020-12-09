@@ -40,7 +40,7 @@ router.get("/", (req, res) => {
 });
 
 
-// ポート：3000 サーバ待機
+// ポート：3000 ホスト：Localhost でサーバ待機
 app.listen(port, host, () => {
     console.log(`app listen: http://${host}:${port}`);
 });
