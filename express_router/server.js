@@ -27,9 +27,8 @@ router.get("/calculate", (req, res) => {
     var tax_rate = 0.1;
     var price = req.query.price;
     var tax = price * tax_rate;
-    res.send(String(tax));
+    res.send(String("消費税は…" + tax));
 });
-
 
 // router.get("/message/list", (req, res) => {
 //     res.send("Message list page");
