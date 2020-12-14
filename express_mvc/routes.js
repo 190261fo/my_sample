@@ -5,14 +5,14 @@ const express = require("express");
 
 // HomeController モジュール読み込み
 // 追記 (HomeController.js を実⾏するルーティング設定)
-const HomeController = require("./controllers/HomeController");
+const homeController = require("./controllers/HomeController");
 
 const router = express.Router();
 
 // ルーティングの設定 (HomeController)
-router.get("/", HomeController.index);
-router.get("/about", HomeController.about);
-router.get("/items", HomeController.items);
+router.get("/", homeController.index);
+router.get("/about", homeController.about);
+router.get("/items", homeController.items);
 // router.get("/routes", (req, res) => {
 //     res.send("Hello routes!!")
 // });

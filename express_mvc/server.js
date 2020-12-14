@@ -26,9 +26,9 @@ const app = express();
 // EJS設定 有効にする(テンプレートエンジンを利用)
 // app.set("ejs", ejs.renderFile);
 // テンプレートエンジンをEJSにする
-app.set("View engine", "ejs");
+app.set("view engine", "ejs");
 // views/layouts/layout.ejs を利用する
-app.set("layouts", "layouts/layout");
+app.set("layout", "layouts/layout");
 // レイアウトを有効にする
 app.use(layouts);
 
