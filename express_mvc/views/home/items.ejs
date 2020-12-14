@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -15,4 +15,17 @@
         </ul>
     </div>
 </body>
-</html>
+</html> -->
+
+<h1>商品一覧</h1>
+<div>
+    <ul>
+        <% items.forEach((item, index) => { %>
+            <li>
+                <%= item.name %>
+                :
+                <%= item.price %>
+            </li>
+        <% }) %>
+    </ul>
+</div>

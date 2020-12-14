@@ -1,7 +1,18 @@
 // コントローラーの作成
     // メソッド定義し、render() でindex.ejs、about.ejsを出⼒するように設定
+
+// アクションメソッド
 exports.index = (req, res) => {
-    res.render("index.ejs", { title: "Index Page"} )
+    // res.send("HomeController index")
+    // 処理
+    let data = {
+        title: "Index Page",
+        message: "Welcome to Homepage",
+    }
+
+    // HTMLの表示 & data を受け渡す
+    // res.render("index.ejs", { title: "Index Page"} )
+    res.render("home/index.ejs", data)
 };
 
 exports.about = (req, res) => {
