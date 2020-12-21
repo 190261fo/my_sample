@@ -53,3 +53,21 @@ exports.update = (req, res) => {
     });
     con.end();
 }
+
+exports.delete = (req, res) => {
+    let id = req.params.id;
+    let params = [id];
+    const sql = 'DELETE FROM items WHERE id = ?;';
+
+    const con = mysql.createConnection(config.mysql)
+    con.connect();
+    // const con = db.connect();
+    con.query(sql, params, (err) => {
+        if (err) {
+            res.redirect('/item/edit/' + id);
+        } else {
+            res.redirect('/item');
+        }
+    });
+    con.end();
+}
