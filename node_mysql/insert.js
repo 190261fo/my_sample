@@ -6,6 +6,7 @@ const db = require("./lib/db");
 // db: connect()
 const con = db.connect();
 
+// INSERTするデータ
 // password
 const password = "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi";
 
@@ -21,6 +22,7 @@ let sql = "INSERT INTO users SET ?;";
 ports.forEach((port) => {
     con.query(sql, port, (err, results) => {
         if (err) console.log(err.sqlMessage);
+        console.log("insert success.");
     })
 });
 
