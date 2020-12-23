@@ -1,4 +1,13 @@
-<a href="/item/create" class="btn btn-sm btn-outline-primary">新規</a>
+<!-- 検索機能追加 -->
+<form action="/item/search" method="get">
+  <input type="text" name="keyword" placeholder=">> 商品名のみ入力可能">
+  <button class="btn btn-sm btn-primary">検索</button>
+  <a href="/item" class="btn btn-sm btn-outline-primary ">クリア</a>
+</form>
+
+<br><br>
+
+<a href="/item/create" class="btn btn-sm btn-primary">新規</a>
 <table class="table table-responsive">
   <tr>
     <th></th>
