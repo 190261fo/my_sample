@@ -17,7 +17,7 @@
   </form>
 
   <!-- 削除用のフォーム追加 -->
-  <form action="/item/delete/<%= item.id %>" method="post">
+  <form action="/item/delete/<%= item.id %>" method="post" onclick="return confirm('削除しますか？')">
     <button class="btn btn-danger">削除</button>
   </form>
 </div>

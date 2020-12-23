@@ -71,3 +71,19 @@ exports.delete = (req, res) => {
     });
     con.end();
 }
+
+exports.search = (req, res) => {
+    let keyword = req.query.keyword;
+    console.log(keyword);
+    // SELECT * FROM items WHERE keyword LIKE '% キーワード%';
+    const sql = "SELECT * FROM items WHERE name LIKE '%" + keyword + "%';";
+
+    const con = mysql.createConnection(config.mysql)
+    con.connect();
+    con.query(sql, (err, results) => {
+        if (err) throw err;
+        let data = { items: results, err: err };
+        res.render('item/index', data);
+    });
+    con.end();
+}
