@@ -142,6 +142,7 @@ $(() => {
 
     //接続
     socket.on('connect', () => {
+        // socket.id 等をログで確認
         console.log('connect');
         console.log(socket.id);
         console.log(socket.connected);
@@ -160,18 +161,49 @@ $(() => {
 
     // server から login 情報取得
     socket.on('logined', (data) => {
+        console.log("logined");
+
+        if (data.user) {
+            user = data.user;
+            users = data.users;
+
+            // ユーザ名を表示
+            userName.text(user.name);
+            // ユーザ一覧を更新
+            updateUserList();
+        }
     });
 
     // login 情報（ブロードキャスト）
     socket.on('user_joined', (data) => {
+        console.log("user_joined");
+
+        if (data.user && data.users) {
+            // let message = data.user.name + " joined.";
+            let message = data.user.name + " さんが入室しました。";
+            addMessage(message);
+
+            users = data.users;
+            updateUserList();
+        }
     });
 
     // ログアウト受信（ブロードキャスト）
     socket.on('user_left', (data) => {
+        console.log("user_left");
+
+        // let message = data.username + " logout.";
+        let message = data.username + " さんが退室しました。";
+        addMessage(message);
+
+        users = data.users;
+        updateUserList();
     });
 
     // スタンプ読み込み
     socket.on('loadStamp', (data) => {
+        console.log("loadstamp");
+        createChatStamp(data);
     });
 
     // ユーザ一覧
@@ -183,22 +215,78 @@ $(() => {
     });
 
     // client からの server へメッセージ
+    // send クリック
     $('#send').on('click', () => {
+        // userトークンチェック
+        if (!user.token) return;
+        if (!message.val()) return;
+
+        // データ作成
+        let data = {
+            message: message.val(),
+            user: user,
+        }
+
+        // client_to_server にデータ送信
+        socket.emit("client_to_server", data);
+        message.val("");
     });
 
     // サーバーへ login
+    // id=login のElementをクリックしたら
     $('#login').on('click', () => {
+        let user = {}
+
+        // username 入力チェック
+        if (inputName.val()) {
+            // ログイン表示画面を隠す
+            loginArea.hide();
+            // チャット画面を表示
+            chatArea.fadeIn(FADE_TIME);
+        }
+
+        // username 取得＆設定(ユーザ情報作成)
+        user.name = inputName.val();
+        user.icon = $("input[name=icon]:checked").val();
+
+        // ユーザ情報送信
+        socket.emit("login", user);
+        console.log(user);
     });
 
+    // スタンプメニュー切り替え
     $('.stamp').on('click', () => {
+        stampList.toggle();
     });
 
     //画像を base64 に変換してサーバにユーザ情報とともに送信
     $('.sendStamp').on('click', (event) => {
+        const mime_type = "image/png";
+        const image = new Image();
+        image.src = $(event.target).attr("src");
+        image.onload = function(event) {
+            console.log(event);
+            const canvas = document.createElement("canvas");
+            canvas.width = image.naturalWidth;
+            canvas.height = image.naturalHeight;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(image, 0, 0);
+            let base64 = canvas.toDataURL(mime_type);
+            let data = { user: user, image: base64 };
+            socket.emit("sendStamp", data)
+            stampList.toggle();
+        }
     });
 
     //ログアウト処理
     $('#logout').on('click', () => {
+        console.log("logout");
+
+        // サーバのlogout に送信
+        socket.emit("logout");
+        user = {};
+        chatArea.fadeOut(FADE_TIME);
+        loginArea.fadeIn(FADE_TIME);
     });
 
 })
